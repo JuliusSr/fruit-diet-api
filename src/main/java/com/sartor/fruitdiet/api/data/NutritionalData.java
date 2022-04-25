@@ -1,14 +1,12 @@
 package com.sartor.fruitdiet.api.data;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class NutritionalData {
 
     private Double carbohydrates;

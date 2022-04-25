@@ -1,7 +1,6 @@
 package com.sartor.fruitdiet.api;
 
 import com.sartor.fruitdiet.api.controller.FruitDietController;
-import com.sartor.fruitdiet.api.data.Fruit;
 import com.sartor.fruitdiet.api.data.NutritionalData;
 import com.sartor.fruitdiet.api.data.NutritionalValue;
 import com.sartor.fruitdiet.api.exceptions.FruitInfoRetrievalException;
@@ -72,23 +71,8 @@ public class FruitDietControllerTest {
     @Test
     @SneakyThrows
     public void filter_givenValidInput_shouldReturnListOfFruits() {
-        Fruit durianFruit = Fruit.builder()
-                .name("Durian")
-                .family("Malvaceae")
-                .order("Malvales")
-                .genus("Durio")
-                .nutritionalData(NutritionalData.builder()
-                        .carbohydrates(27.1)
-                        .protein(1.5)
-                        .fat(5.3)
-                        .calories(147)
-                        .sugar(6.75)
-                        .build()
-                )
-                .build();
-
         when(fruitDietService.filterFruits(NutritionalValue.calories,100.0,null,null))
-                .thenReturn(Collections.singletonList(durianFruit));
+                .thenReturn(Collections.singletonList(Fruits.DURIAN));
 
         mockMvc.perform(get("/diet/fruits/filter/calories?min=100"))
                 .andExpect(status().isOk())

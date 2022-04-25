@@ -49,20 +49,6 @@ public class FruityViceFruitsInfoServiceTest {
     @Test
     @SneakyThrows
     public void getFruitByName_givenValidFruitName_shouldRetrieveFruitInfo() {
-        Fruit bananaFruit = Fruit.builder()
-                .name("Banana")
-                .family("Musaceae")
-                .order("Zingiberales")
-                .genus("Musa")
-                .nutritionalData(NutritionalData.builder()
-                        .carbohydrates(22.0)
-                        .protein(1.0)
-                        .fat(0.2)
-                        .calories(96)
-                        .sugar(17.2)
-                        .build()
-                )
-                .build();
         String bananaResponse = "{\n" +
                 "    \"genus\": \"Musa\",\n" +
                 "    \"name\": \"Banana\",\n" +
@@ -84,7 +70,7 @@ public class FruityViceFruitsInfoServiceTest {
 
         Fruit retrievedFruit = fruitsInfoService.getFruitByName("banana");
 
-        assertEquals(bananaFruit, retrievedFruit);
+        assertEquals(Fruits.BANANA, retrievedFruit);
     }
 
     @Test(expected = FruitInfoRetrievalException.class)
@@ -100,20 +86,6 @@ public class FruityViceFruitsInfoServiceTest {
     @Test
     @SneakyThrows
     public void getFruitsByFamily_givenValidInput_shouldReturnListOfFruitsInFamily() {
-        Fruit durianFruit = Fruit.builder()
-                .name("Durian")
-                .family("Malvaceae")
-                .order("Malvales")
-                .genus("Durio")
-                .nutritionalData(NutritionalData.builder()
-                        .carbohydrates(27.1)
-                        .protein(1.5)
-                        .fat(5.3)
-                        .calories(147)
-                        .sugar(6.75)
-                        .build()
-                )
-                .build();
         mockServer
                 .expect(requestTo(FRUIT_INFO_API_URL + "family/Durian"))
                 .andRespond(withSuccess("[{\"id\":60,\"name\":\"Durian\",\"family\":\"Malvaceae\",\"genus\":\"Durio\",\"order\":\"Malvales\",\"nutritions\":{\"carbohydrates\":27.1,\"protein\":1.5,\"fat\":5.3,\"calories\":147,\"sugar\":6.75}}]", MediaType.APPLICATION_JSON));
@@ -121,7 +93,7 @@ public class FruityViceFruitsInfoServiceTest {
         List<Fruit> retrievedFruitList = fruitsInfoService.getFruitsByFamily("Durian");
 
         assertEquals(1, retrievedFruitList.size());
-        assertEquals(durianFruit, retrievedFruitList.get(0));
+        assertEquals(Fruits.DURIAN, retrievedFruitList.get(0));
     }
 
     @Test(expected = FruitInfoRetrievalException.class)
@@ -137,21 +109,6 @@ public class FruityViceFruitsInfoServiceTest {
     @Test
     @SneakyThrows
     public void getFruitsByNutritionalValue_givenValidInput_shouldReturnListOfFruitsSatisfyingConstraints() {
-        Fruit durianFruit = Fruit.builder()
-                .name("Durian")
-                .family("Malvaceae")
-                .order("Malvales")
-                .genus("Durio")
-                .nutritionalData(NutritionalData.builder()
-                        .carbohydrates(27.1)
-                        .protein(1.5)
-                        .fat(5.3)
-                        .calories(147)
-                        .sugar(6.75)
-                        .build()
-                )
-                .build();
-
         mockServer
                 .expect(requestTo(FRUIT_INFO_API_URL + "calories?min=100.0&max=1000.0"))
                 .andRespond(withSuccess("[{\"id\":60,\"name\":\"Durian\",\"family\":\"Malvaceae\",\"genus\":\"Durio\",\"order\":\"Malvales\",\"nutritions\":{\"carbohydrates\":27.1,\"protein\":1.5,\"fat\":5.3,\"calories\":147,\"sugar\":6.75}}]", MediaType.APPLICATION_JSON));
@@ -159,7 +116,7 @@ public class FruityViceFruitsInfoServiceTest {
         List<Fruit> retrievedFruitList = fruitsInfoService.getFruitsByNutritionalValue(NutritionalValue.calories, 100.0, null);
 
         assertEquals(1, retrievedFruitList.size());
-        assertEquals(durianFruit, retrievedFruitList.get(0));
+        assertEquals(Fruits.DURIAN, retrievedFruitList.get(0));
     }
 
     @Test(expected = FruitInfoRetrievalException.class)

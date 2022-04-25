@@ -8,6 +8,7 @@ import com.sartor.fruitdiet.api.data.NutritionalValue;
 import com.sartor.fruitdiet.api.data.SortingOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,6 +50,7 @@ public class FruitDietController {
     public ResponseEntity<String> handleFruitInfoRetrievalException(FruitInfoRetrievalException e) {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .contentType(MediaType.APPLICATION_JSON)
                 .body("{\"error:\":\"Could not retrieve data\"}");
     }
 

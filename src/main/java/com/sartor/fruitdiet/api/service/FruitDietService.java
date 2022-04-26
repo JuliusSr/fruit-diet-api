@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,8 +50,11 @@ public class FruitDietService {
             String baselineFruitName,
             String comparedFruitName
     ) throws FruitInfoRetrievalException {
-        Fruit baselineFruit = fruitsInfoService.getFruitByName(baselineFruitName);
-        Fruit comparedFruit = fruitsInfoService.getFruitByName(comparedFruitName);
+        CompletableFuture<Fruit> baselineFruitFuture = fruitsInfoService.getFruitByNameAsync(baselineFruitName);
+        CompletableFuture<Fruit> comparedFruitFuture = fruitsInfoService.getFruitByNameAsync(comparedFruitName);
+
+        Fruit baselineFruit = baselineFruitFuture.join();
+        Fruit comparedFruit = comparedFruitFuture.join();
 
         return comparedFruit
                 .getNutritionalData()

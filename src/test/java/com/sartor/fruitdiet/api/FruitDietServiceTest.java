@@ -16,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
@@ -142,8 +143,10 @@ public class FruitDietServiceTest {
     @Test
     @SneakyThrows
     public void getNutritionalDataDifference_givenValidInput_shouldReturnDifference() {
-        when(fruitsInfoService.getFruitByName("apple")).thenReturn(Fruits.APPLE);
-        when(fruitsInfoService.getFruitByName("pear")).thenReturn(Fruits.PEAR);
+        when(fruitsInfoService.getFruitByNameAsync("apple"))
+                .thenReturn(CompletableFuture.completedFuture(Fruits.APPLE));
+        when(fruitsInfoService.getFruitByNameAsync("pear"))
+                .thenReturn(CompletableFuture.completedFuture(Fruits.PEAR));
         NutritionalData pearVsAppleNutritionalData = fruitDietService.getNutritionalDataDifference(
                 "apple",
                 "pear"
@@ -158,7 +161,7 @@ public class FruitDietServiceTest {
     @Test(expected = FruitInfoRetrievalException.class)
     @SneakyThrows
     public void getNutritionalDataDifference_onRetrievalErrorError_shouldThrowFruitInfoRetrievalException() {
-        when(fruitsInfoService.getFruitByName("apple")).thenThrow(new FruitInfoRetrievalException());
+        when(fruitsInfoService.getFruitByNameAsync("apple")).thenThrow(new FruitInfoRetrievalException());
         fruitDietService.getNutritionalDataDifference("apple","pear");
     }
 

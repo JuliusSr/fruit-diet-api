@@ -2,7 +2,6 @@ package com.sartor.fruitdiet.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sartor.fruitdiet.api.data.Fruit;
-import com.sartor.fruitdiet.api.data.NutritionalData;
 import com.sartor.fruitdiet.api.data.NutritionalValue;
 import com.sartor.fruitdiet.api.exceptions.FruitInfoRetrievalException;
 import com.sartor.fruitdiet.api.fruitsinfo.fruityvice.FruityViceFruitsInfoService;
@@ -81,6 +80,43 @@ public class FruityViceFruitsInfoServiceTest {
                 .andRespond(withBadRequest().body("{\"error\": \"The fruit was not found\"}"));
 
         fruitsInfoService.getFruitByName("forbiddenFruit");
+    }
+
+    @Test
+    @SneakyThrows
+    public void getFruitByNameAsync_givenValidFruitName_shouldRetrieveFruitInfo() {
+        String bananaResponse = "{\n" +
+                "    \"genus\": \"Musa\",\n" +
+                "    \"name\": \"Banana\",\n" +
+                "    \"id\": 1,\n" +
+                "    \"family\": \"Musaceae\",\n" +
+                "    \"order\": \"Zingiberales\",\n" +
+                "    \"nutritions\": {\n" +
+                "        \"carbohydrates\": 22,\n" +
+                "        \"protein\": 1,\n" +
+                "        \"fat\": 0.2,\n" +
+                "        \"calories\": 96,\n" +
+                "        \"sugar\": 17.2\n" +
+                "    }\n" +
+                "}";
+
+        mockServer
+                .expect(requestTo(FRUIT_INFO_API_URL + "banana"))
+                .andRespond(withSuccess(bananaResponse, MediaType.APPLICATION_JSON));
+
+        Fruit retrievedFruit = fruitsInfoService.getFruitByNameAsync("banana").join();
+
+        assertEquals(Fruits.BANANA, retrievedFruit);
+    }
+
+    @Test(expected = FruitInfoRetrievalException.class)
+    @SneakyThrows
+    public void getFruitByNameAsync_onApiError_shouldThrowFruitRetrievalException() {
+        mockServer
+                .expect(requestTo(FRUIT_INFO_API_URL + "forbiddenFruit"))
+                .andRespond(withBadRequest().body("{\"error\": \"The fruit was not found\"}"));
+
+        fruitsInfoService.getFruitByNameAsync("forbiddenFruit").join();
     }
 
     @Test

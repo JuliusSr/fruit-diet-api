@@ -37,10 +37,20 @@ The fruit info API url is defined in an application.properties file so that it's
 
 ## API
 
+Included in this project, a [postman collection](./postman) can be found containing some examples of API usage.
+
 ### Filter by nutritional value
 ```
 [GET] /diet/fruit/filter/{nutritionalValue}?min={min}&max={max}&order={order}
 ```
+
+| Parameter        | Mandatory | Values | Description                                                                   |
+|------------------|-----------|--------|-------------------------------------------------------------------------------|
+| nutritionalValue | true      | String | Name of the nutritional value: [carbohydrates, protein, fat, calories, sugar] |
+| min              | false     | Double | Optional minimum value for nutritional value (Default: 0.0)                   |
+| max              | false     | Double | Optional maximum value for nutritional value (Default: 1000.0)                |
+| order            | false     | String | Optional sorting order: [asc, desc]                                           |
+
 This API is a generalization ad a combination of requirements 1 and 4.  
 Seeing that requirement 4 builds on top of requirement 1 by requiring also a minimum amount of calories and an ordering, those can be put together to form a single API.  
 And because we could be interested in doing a similar filter and ordering on other nutritional values, this API was built to work with all nutritional values (including calories as initially required).  
@@ -173,6 +183,12 @@ If an order is specified it returns the sorted range, otherwise it preserves the
 ```
 [GET] /diet/fruit/comparison?baselineFruit={baselineFruit}&comparedFruit={comparedFruit}
 ```
+
+| Parameter      | Mandatory | Type   | Description                 |
+|----------------|-----------|--------|-----------------------------|
+| baselineFruit  | true      | String | Name of the baseline fruit  |
+| comparedFruit  | true      | String | Name of the compared fruit  |
+
 This API follows requirement 2.
 The API uses the "Request Fruit information" FruityVice API to retrieve a specific fruit data.  
 In order to get the difference of nutritional data, one of the two fruits is taken as baseline. The result of the comparison will be the delta between nutritional data of the second fruit compared to the baseline fruit.  
@@ -196,6 +212,11 @@ In order to get the difference of nutritional data, one of the two fruits is tak
 ```
 [GET] /average/family/{family}
 ```
+
+| Parameter | Mandatory | Type   | Description        |
+|-----------|-----------|--------|--------------------|
+| family    | true      | String | Fruit family name  |
+
 This API follows requirement 3.
 The API uses the "Request fruits with given family" FruityVice API to retrieve all fruits in a given family.  
 After the fruits are retrieved all nutritional data are respectively added together and then divided by the total number of fruits in the family to obtain the average.

@@ -1,0 +1,127 @@
+{
+	"info": {
+		"_postman_id": "2b5f0036-04d0-4c06-94e1-ce549abc7e1b",
+		"name": "FruitDietAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "allFruitsGivenMaxCalories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/diet/fruits/filter/calories?max=50",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"diet",
+						"fruits",
+						"filter",
+						"calories"
+					],
+					"query": [
+						{
+							"key": "max",
+							"value": "50"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "differenceBetweenTwoFruits",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/diet/fruits/comparison?baselineFruit=apple&comparedFruit=pear",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"diet",
+						"fruits",
+						"comparison"
+					],
+					"query": [
+						{
+							"key": "baselineFruit",
+							"value": "apple"
+						},
+						{
+							"key": "comparedFruit",
+							"value": "pear"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fruitFamilyNutritionalDataAverage",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/diet/fruits/average/family/Rosaceae",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"diet",
+						"fruits",
+						"average",
+						"family",
+						"Rosaceae"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fruitsInCaloriesRangeOrdered",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/diet/fruits/filter/calories?min=50&max=100&order=asc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"diet",
+						"fruits",
+						"filter",
+						"calories"
+					],
+					"query": [
+						{
+							"key": "min",
+							"value": "50"
+						},
+						{
+							"key": "max",
+							"value": "100"
+						},
+						{
+							"key": "order",
+							"value": "asc"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
